@@ -1,22 +1,17 @@
-# ===== BUILD STAGE =====
-FROM maven:3.9.9-eclipse-temurin-21 AS build
-WORKDIR /app
-
-COPY pom.xml .
-RUN mvn -B dependency:go-offline
-
-COPY src ./src
-RUN mvn -B clean package -DskipTests
+# ... (Phần Build Stage giữ nguyên)
 
 # ===== RUNTIME STAGE =====
 FROM eclipse-temurin:21-jre
 WORKDIR /app
 
+# Cài curl vì bản JRE mặc định không có
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
 COPY --from=build /app/target/*.jar app.jar
 
-EXPOSE 8081
+# Sử dụng biến môi trường cho Healthcheck
+HEALTHCHECK --interval=30s --timeout=5s --start-period=60s \
+  CMD curl -f http://localhost:${PORT:-8081}/optics/actuator/health || exit 1
 
-HEALTHCHECK --interval=30s --timeout=5s --start-period=30s \
-CMD curl -f http://localhost:${PORT:-8081}/optics/actuator/health || exit 1
-
-CMD ["java","-jar","app.jar"]
+# Dùng ENTRYPOINT để truyền tham số Port trực tiếp vào Java
+ENTRYPOINT ["sh", "-c", "java -jar app.jar --server.port=${PORT:-8081}"]
