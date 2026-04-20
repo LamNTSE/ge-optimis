@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Hidden;
 
 import java.time.LocalDate;
 // Springboot : tài xê taxi => ra lệnh nêu yc => springboot lo hết đưa em đi từ A-B
@@ -24,6 +25,7 @@ import java.time.LocalDate;
 // Client --Restful API--Server
 
 //Server : Controller -> Service(Logic) -> REpositoy (CRUD) -> Database  : postgresql  , mysql
+@Hidden
 @RestController  //Restful API
 @RequestMapping("/api/policies")
 @RequiredArgsConstructor   // tạo các loại contructor ko tham so , hoac co tham so

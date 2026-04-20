@@ -7,6 +7,7 @@ import com.glassystem.optics.dto.response.FeedbackResponse;
 import com.glassystem.optics.service.FeedbackService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ import java.util.List;
 @RequestMapping("/feedbacks")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Hidden
 @Tag(name = "Feedback Management", description = "Endpoints for customers to submit and manage product feedback after order completion")
 public class FeedbackController {
 

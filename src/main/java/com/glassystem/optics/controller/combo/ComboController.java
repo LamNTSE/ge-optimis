@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Hidden;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -39,6 +40,7 @@ import java.util.List;
  * - API 4, 5: Yêu cầu đăng nhập (authenticated)
  * - API 6, 7, 8: Yêu cầu đăng nhập (authenticated)
  */
+@Hidden
 @RestController
 @RequestMapping("/api/combos")
 @RequiredArgsConstructor
