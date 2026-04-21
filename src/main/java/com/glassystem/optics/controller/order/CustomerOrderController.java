@@ -35,7 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/orders")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@Tag(name = "Customer Order Management", description = "Endpoints for customers to manage their own orders and prescriptions")
+@Tag(name = "Customer Order", description = "Endpoints for customers to manage their own orders and prescriptions")
 @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
 public class CustomerOrderController {
 

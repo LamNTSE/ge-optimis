@@ -9,6 +9,7 @@ import com.glassystem.optics.service.PermissionService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/permissions")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Hidden
 @Tag(name = "Access Control - Permission Management", description = "Endpoints for managing granular system permissions")
 @PreAuthorize("hasRole('ADMIN')")
 public class PermissionController {
