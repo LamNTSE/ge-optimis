@@ -29,7 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
-@Tag(name = "User Management", description = "Endpoints for user registration, account auditing, and profile management")
+@Tag(name = "User", description = "Endpoints for user registration, account auditing, and profile management")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserController {
         UserService userService;

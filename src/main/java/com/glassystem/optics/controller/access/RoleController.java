@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/roles")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@Tag(name = "Access Control - Role Management")
+@Tag(name = "Role")
 @PreAuthorize("hasRole('ADMIN')")
 public class RoleController {
     RoleService roleService;

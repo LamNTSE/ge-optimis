@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/sales/orders")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@Tag(name = "Sales Operations", description = "Endpoints for sales staff to verify, reject, and dispatch orders")
+@Tag(name = "Sales Order", description = "Endpoints for sales staff to verify, reject, and dispatch orders")
 @PreAuthorize("hasRole('SALE') or hasRole('ADMIN')")
 public class SalesOrderController {
 

@@ -26,7 +26,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/payment")
 @RequiredArgsConstructor
-@Tag(name = "Payment Controller")
+@Tag(name = "Payment")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PaymentController {
     final PaymentService paymentService;

@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/production/orders")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@Tag(name = "Production Management", description = "Endpoints for technical staff to manage lens grinding and assembly workflows")
+@Tag(name = "Lens Order", description = "Endpoints for technical staff to manage lens grinding and assembly workflows")
 @PreAuthorize("hasRole('OPERATION') or hasRole('ADMIN')")
 public class ProductionOrderController {
 

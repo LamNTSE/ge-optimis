@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@Tag(name = "Authentication Management", description = "Endpoints for user identity, session, and token management")
+@Tag(name = "Authentication", description = "Endpoints for user identity, session, and token management")
 public class AuthenticationController {
 
     AuthenticationService authenticationService;
