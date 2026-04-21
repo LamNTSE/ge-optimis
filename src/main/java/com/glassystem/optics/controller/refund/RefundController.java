@@ -19,6 +19,7 @@ import com.glassystem.optics.service.ProductVariantService;
 import com.glassystem.optics.service.RefundService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
+@Hidden
 @RequestMapping("/refund")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN') or hasRole('CUSTOMER')")

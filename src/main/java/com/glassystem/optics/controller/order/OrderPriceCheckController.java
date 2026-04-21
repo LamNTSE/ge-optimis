@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/orders")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Hidden
 @Tag(name = "Price & Conflict Validation", description = "Kiểm tra xung đột giá trước khi tạo đơn hàng")
 @PreAuthorize("hasRole('SALE') or hasRole('ADMIN') or hasRole('OPERATION')")
 public class OrderPriceCheckController {
