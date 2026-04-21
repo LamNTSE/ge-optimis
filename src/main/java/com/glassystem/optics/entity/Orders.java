@@ -31,6 +31,8 @@ public class Orders {
     LocalDateTime shippedAt;
     LocalDateTime deliveredAt;
 
+    String trackingNumber;
+
 
     @Enumerated(EnumType.STRING)
     OrderStatus status;

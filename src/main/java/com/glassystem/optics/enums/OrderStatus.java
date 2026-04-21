@@ -9,6 +9,8 @@ public enum OrderStatus {
     PREPARING, // Đang chuẩn bị hàng (IN_STOCK sau thanh toán)
     PROCESSING, // Có ít nhất 1 item đang sản xuất
     PRODUCED, // Tất cả item đã xong
+    PACKAGING, // Đang đóng gói
+    HANDED_TO_CARRIER, // Đã bàn giao cho ĐVVC
     READY_TO_SHIP,
     SHIPPED, // Đã giao cho vận chuyển, shipper đã accept
     DELIVERING,

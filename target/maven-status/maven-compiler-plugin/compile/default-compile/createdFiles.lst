@@ -276,6 +276,7 @@ com\glassystem\optics\dto\request\IntrospectRequest.class
 com\glassystem\optics\mapper\ProductVariantMapperImpl.class
 com\glassystem\optics\dto\response\IntrospectResponse.class
 com\glassystem\optics\service\PaymentCalculationService$ItemPaymentRequirement.class
+com\glassystem\optics\dto\request\HandoverToCarrierRequest.class
 com\glassystem\optics\dto\response\ComboValidateResponse$ComboValidateResponseBuilder.class
 com\glassystem\optics\dto\response\OrderPageResponse$OrderPageResponseBuilder.class
 com\glassystem\optics\dto\response\ChatbotChatResponse$ChatbotChatResponseBuilder.class

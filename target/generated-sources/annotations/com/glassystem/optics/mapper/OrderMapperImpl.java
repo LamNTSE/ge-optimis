@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-04-19T20:55:23+0700",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.7 (Eclipse Adoptium)"
+    date = "2026-04-22T06:23:38+0700",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 22.0.1 (Oracle Corporation)"
 )
 @Component
 public class OrderMapperImpl implements OrderMapper {
@@ -61,6 +61,7 @@ public class OrderMapperImpl implements OrderMapper {
         orderResponse.setDepositAmount( order.getDepositAmount() );
         orderResponse.setRemainingAmount( order.getRemainingAmount() );
         orderResponse.setItems( orderItemMapper.toOrderItemResponseList( order.getItems() ) );
+        orderResponse.setTrackingNumber( order.getTrackingNumber() );
 
         return orderResponse;
     }

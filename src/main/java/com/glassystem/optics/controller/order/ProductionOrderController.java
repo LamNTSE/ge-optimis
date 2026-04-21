@@ -3,10 +3,13 @@ package com.glassystem.optics.controller.order;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import com.glassystem.optics.dto.request.HandoverToCarrierRequest;
 import com.glassystem.optics.dto.response.ApiResponse;
 import com.glassystem.optics.dto.response.OrderResponse;
 import com.glassystem.optics.enums.OrderItemStatus;
 import com.glassystem.optics.service.OrderService;
+
+import jakarta.validation.Valid;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,12 +23,11 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/production/orders")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@Tag(name = "Lens Order", description = "Endpoints for technical staff to manage lens grinding and assembly workflows")
+@Tag(name = "Production Management", description = "Endpoints for technical staff to manage lens grinding and assembly workflows")
 @PreAuthorize("hasRole('OPERATION') or hasRole('ADMIN')")
 public class ProductionOrderController {
 
     OrderService orderService;
-
 
     @PutMapping("/{orderId}/start")
     @Operation(summary = "Start order production", description = "Initializes the production phase for an order, changing status to PROCESSING")
@@ -51,6 +53,26 @@ public class ProductionOrderController {
             @RequestParam("status") OrderItemStatus status) {
         return ApiResponse.<OrderResponse>builder()
                 .result(orderService.updateOrderItemProductionStatus(orderItemId, status))
+                .build();
+    }
+
+    @PutMapping("/{orderId}/packaging")
+    @Operation(summary = "Start packaging", description = "Moves order to PACKAGING status (Đang đóng gói)")
+    public ApiResponse<OrderResponse> startPackaging(@PathVariable("orderId") String orderId) {
+        return ApiResponse.<OrderResponse>builder()
+                .result(orderService.startPackaging(orderId))
+                .message("Order is now being packaged")
+                .build();
+    }
+
+    @PutMapping("/{orderId}/handover")
+    @Operation(summary = "Handover to carrier", description = "Hands order over to delivery carrier (ĐVVC) with tracking number (mã vận đơn)")
+    public ApiResponse<OrderResponse> handoverToCarrier(
+            @PathVariable("orderId") String orderId,
+            @Valid @RequestBody HandoverToCarrierRequest request) {
+        return ApiResponse.<OrderResponse>builder()
+                .result(orderService.handoverToCarrier(orderId, request.getTrackingNumber()))
+                .message("Order handed over to carrier successfully")
                 .build();
     }
 

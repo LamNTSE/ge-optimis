@@ -32,6 +32,8 @@ public class OrderResponse {
     List<PaymentResponse> payments;
     ShipperInfoResponse shipperInfo;
 
+    String trackingNumber;
+
     String comboId;
     String comboName;
     BigDecimal comboDiscountAmount;

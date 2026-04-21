@@ -134,8 +134,13 @@ public class OrderService {
                 prescription = prescriptionRepository.save(prescription);
                 item.setPrescription(prescription);
             }
-            if (lens != null && orderItemRequest.getPrescription() == null) {
-                throw new AppException(ErrorCode.PRESCRIPTION_REQUIRED);
+            if (lens != null) {
+                PrescriptionRequest prescriptionRequest = orderItemRequest.getPrescription();
+                boolean isMissingPrescription = prescriptionRequest == null
+                        || isPrescriptionEmpty(prescriptionRequest);
+                if (!hasPrescriptionImage && isMissingPrescription) {
+                    throw new AppException(ErrorCode.PRESCRIPTION_REQUIRED);
+                }
             }
 
             if (inventory != null) {
@@ -885,6 +890,36 @@ public class OrderService {
         return buildOrderResponse(savedOrder);    }
 
     @Transactional
+    public OrderResponse startPackaging(String orderId) {
+        Orders order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
+
+        if (order.getStatus() != OrderStatus.PRODUCED) {
+            throw new AppException(ErrorCode.INVALID_ORDER_STATUS);
+        }
+
+        order.setStatus(OrderStatus.PACKAGING);
+        Orders savedOrder = orderRepository.save(order);
+        return buildOrderResponse(savedOrder);
+    }
+
+    @Transactional
+    public OrderResponse handoverToCarrier(String orderId, String trackingNumber) {
+        Orders order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
+
+        if (order.getStatus() != OrderStatus.PACKAGING) {
+            throw new AppException(ErrorCode.INVALID_ORDER_STATUS);
+        }
+
+        order.setTrackingNumber(trackingNumber);
+        order.setStatus(OrderStatus.HANDED_TO_CARRIER);
+        Orders savedOrder = orderRepository.save(order);
+        sendOrderReadyToShipNotificationToShippers(savedOrder);
+        return buildOrderResponse(savedOrder);
+    }
+
+    @Transactional
     public OrderResponse updateOrderItemProductionStatus(String orderItemId, OrderItemStatus status) {
         OrderItem orderItem = orderItemRepository.findById(orderItemId)
                 .orElseThrow(() -> new AppException(ErrorCode.ORDER_ITEM_NOT_FOUND));
@@ -961,7 +996,8 @@ public class OrderService {
             Orders order = orderRepository.findById(orderId)
                     .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
             if (order.getStatus() != OrderStatus.READY_TO_SHIP
-                    && order.getStatus() != OrderStatus.PRODUCED) {
+                    && order.getStatus() != OrderStatus.PRODUCED
+                    && order.getStatus() != OrderStatus.HANDED_TO_CARRIER) {
                 throw new AppException(ErrorCode.INVALID_ORDER_STATUS);
             }
             order.setStatus(OrderStatus.SHIPPED);
@@ -1549,6 +1585,31 @@ public class OrderService {
         return orderItem.getOrderItemType() == OrderItemType.PRE_ORDER
                 || orderItem.getPrescription() != null
                 || (orderItem.getLensId() != null && !orderItem.getLensId().isBlank());
+    }
+
+    private boolean isPrescriptionEmpty(PrescriptionRequest request) {
+        if (request == null) {
+            return true;
+        }
+
+        boolean hasNote = request.getNote() != null && !request.getNote().trim().isBlank();
+        if (hasNote) {
+            return false;
+        }
+
+        boolean hasRightEye = (request.getOdSphere() != null && request.getOdSphere() != 0)
+                || (request.getOdCylinder() != null && request.getOdCylinder() != 0)
+                || (request.getOdAxis() != null && request.getOdAxis() != 0)
+                || (request.getOdAdd() != null && request.getOdAdd() != 0)
+                || (request.getOdPd() != null && request.getOdPd() != 0);
+
+        boolean hasLeftEye = (request.getOsSphere() != null && request.getOsSphere() != 0)
+                || (request.getOsCylinder() != null && request.getOsCylinder() != 0)
+                || (request.getOsAxis() != null && request.getOsAxis() != 0)
+                || (request.getOsAdd() != null && request.getOsAdd() != 0)
+                || (request.getOsPd() != null && request.getOsPd() != 0);
+
+        return !hasRightEye && !hasLeftEye;
     }
 
     private Lens resolveLens(String lensId) {
