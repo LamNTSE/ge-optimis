@@ -36,6 +36,9 @@ public class UserCreationRequest {
     @Column(unique = true, nullable = false)
     String email;
 
+    @VietNamPhone(message = "INVALID_VNPHONE")
+    String phone;
+
     String firstName;
     String lastName;
     @DobConstraint(min = 10, message = "INVALID_DOB")
