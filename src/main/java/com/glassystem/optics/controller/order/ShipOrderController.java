@@ -27,6 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @PreAuthorize("hasRole('SHIPPER') or hasRole('ADMIN')")
+@Tag(name = "Shipping Order")
 public class ShipOrderController {
 
     OrderService orderService;
